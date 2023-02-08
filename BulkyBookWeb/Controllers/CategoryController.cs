@@ -18,18 +18,60 @@ namespace BulkyBookWeb.Controllers
             
             return View(objectCategoryList);
         }
+        //GET
         public IActionResult Create()
         {
             return View();
         }
-
+        //POST
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Create(Category obj)
         {
-            _db.Categories.Add(obj);
-            _db.SaveChanges();
-            return RedirectToAction("Index");
+            if(obj.Name == obj.DisplayOrder.ToString())
+            {
+                ModelState.AddModelError("CustomError", "The Display Order can't have the same name as Name");
+            }
+            if (ModelState.IsValid)
+            {
+                _db.Categories.Add(obj);
+                _db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            return View(obj);
+        }
+
+        //GET
+        public IActionResult Edit(int ?id)
+        {
+            if(id == null || id==0)
+            {
+                return NotFound();
+            }
+            var category = _db.Categories.FirstOrDefault(c => c.Id == id);
+            if(category == null)
+            {
+                return NotFound();
+            }
+            return View(category);
+        }
+
+        //POST
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Edit(Category obj)
+        {
+            if (obj.Name == obj.DisplayOrder.ToString())
+            {
+                ModelState.AddModelError("Name", "The Display Order can't have the same name as Name");
+            }
+            if (ModelState.IsValid)
+            {
+                _db.Categories.Update(obj);
+                _db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            return View(obj);
         }
     }
 }
