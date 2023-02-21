@@ -4,13 +4,15 @@ using BulkyBook.DataAccess.Repository.IRepository;
 using BulkyBook.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace BulkyBookWeb.Controllers
+
+namespace BulkyBookWeb.Areas.Admin.Controllers
 {
+    [Area("Admin")]
     public class CategoryController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
 
-            public CategoryController(IUnitOfWork unitOfWork)
+        public CategoryController(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
         }
@@ -18,7 +20,7 @@ namespace BulkyBookWeb.Controllers
         public IActionResult Index()
         {
             IEnumerable<Category> objectCategoryList = _unitOfWork.Category.GetAll();
-            
+
             return View(objectCategoryList);
         }
         //GET
@@ -31,7 +33,7 @@ namespace BulkyBookWeb.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Create(Category obj)
         {
-            if(obj.Name == obj.DisplayOrder.ToString())
+            if (obj.Name == obj.DisplayOrder.ToString())
             {
                 ModelState.AddModelError("CustomError", "The Display Order can't have the same name as Name");
             }
@@ -46,14 +48,14 @@ namespace BulkyBookWeb.Controllers
         }
 
         //GET
-        public IActionResult Edit(int ?id)
+        public IActionResult Edit(int? id)
         {
-            if(id == null || id==0)
+            if (id == null || id == 0)
             {
                 return NotFound();
             }
             var category = _unitOfWork.Category.GetFirstOrDefault(c => c.Id == id);
-            if(category == null)
+            if (category == null)
             {
                 return NotFound();
             }
@@ -97,7 +99,7 @@ namespace BulkyBookWeb.Controllers
         //POST
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult DeletePost(int ?id)
+        public IActionResult DeletePost(int? id)
         {
             var obj = _unitOfWork.Category.GetFirstOrDefault(c => c.Id == id);
             if (obj == null)
