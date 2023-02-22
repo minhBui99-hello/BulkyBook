@@ -37,7 +37,7 @@ namespace BulkyBookWeb.Areas.Admin.Controllers
             {
                 _unitOfWork.CoverType.Add(obj);
                 _unitOfWork.Save();
-                TempData["success"] = "Category created successfully";
+                TempData["success"] = "Cover Type created successfully";
                 return RedirectToAction("Index");
             }
             return View(obj);
@@ -67,7 +67,7 @@ namespace BulkyBookWeb.Areas.Admin.Controllers
             {
                 _unitOfWork.CoverType.Update(obj);
                 _unitOfWork.Save();
-                TempData["success"] = "Category updated successfully";
+                TempData["success"] = "Cover Type updated successfully";
                 return RedirectToAction("Index");
             }
             return View(obj);
@@ -100,7 +100,7 @@ namespace BulkyBookWeb.Areas.Admin.Controllers
             }
             _unitOfWork.CoverType.Remove(obj);
             _unitOfWork.Save();
-            TempData["success"] = "Category deleted successfully";
+            TempData["success"] = "Cover Type deleted successfully";
             return RedirectToAction("Index");
 
         }

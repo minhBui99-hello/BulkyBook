@@ -15,7 +15,7 @@
 @import url("https://fonts.googleapis.com/css?family=Neucha|Cabin+Sketch&display=swap");
 
 :root {
-    --bs-blue: #007bff;
+    --bs-light-hover: #ece7e7;
     --bs-indigo: #6610f2;
     --bs-purple: #6f42c1;
     --bs-pink: #e83e8c;
@@ -3915,7 +3915,7 @@ textarea.form-control-lg {
 
     .dropdown-item:hover, .dropdown-item:focus {
         color: var(--bs-dropdown-link-hover-color);
-        background-color: var(--bs-dropdown-link-hover-bg);
+        background-color: var(--bs-light-hover);
     }
 
     .dropdown-item.active, .dropdown-item:active {
