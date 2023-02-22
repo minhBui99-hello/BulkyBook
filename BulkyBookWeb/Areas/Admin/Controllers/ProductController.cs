@@ -23,30 +23,35 @@ namespace BulkyBookWeb.Areas.Admin.Controllers
 
             return View(objectProductList);
         }
+
         //GET
-        public IActionResult Create()
+        public IActionResult Upsert(int? id)
         {
-            return View();
+            Product product= new();
+            if (id == null || id == 0)
+            {
+               return View(product);
+            }
+            else
+            {
+                return  View(product);
+            }
         }
+
         //POST
         [HttpPost]
         [ValidateAntiForgeryToken]
-
-        //GET
-        public IActionResult Edit(int? id)
+        public IActionResult Edit(Product obj)
         {
-            if (id == null || id == 0)
+            if (ModelState.IsValid)
             {
-                return NotFound();
+                _unitOfWork.Product.Update(obj);
+                _unitOfWork.Save();
+                TempData["success"] = "Product updated successfully";
+                return RedirectToAction("Index");
             }
-            var product = _unitOfWork.Product.GetFirstOrDefault(c => c.Id == id);
-            if (product == null)
-            {
-                return NotFound();
-            }
-            return View(product);
+            return View(obj);
         }
-
 
         //GET
         public IActionResult Delete(int? id)
