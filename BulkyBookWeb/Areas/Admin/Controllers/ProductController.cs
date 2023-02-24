@@ -27,29 +27,32 @@ namespace BulkyBookWeb.Areas.Admin.Controllers
         //GET
         public IActionResult Upsert(int? id)
         {
-            IEnumerable<SelectListItem> CategoryList = _unitOfWork.Category.GetAll().Select(
-                u => new SelectListItem
-                {
-                    Text = u.Name,
-                    Value = u.Id.ToString()
-                });
-        IEnumerable<SelectListItem> CoverTypeList = _unitOfWork.CoverType.GetAll().Select(
-            u => new SelectListItem
+            BulkyBook.Models.ViewModels.ProductVM productVM = new()
             {
-                Text = u.Name,
-                Value = u.Id.ToString()
-            });
+                Product = new(),
+                CategoryList = _unitOfWork.Category.GetAll().Select(
+                    u => new SelectListItem
+                    {
+                        Text = u.Name,
+                        Value = u.Id.ToString()
+                    }),
+                CoverTypeList = _unitOfWork.CoverType.GetAll().Select(
+                    u => new SelectListItem
+                    {
+                        Text = u.Name,
+                        Value = u.Id.ToString()
+                    })
+            };
 
-            Product product= new();
+            Product product = new();
             if (id == null || id == 0)
             {
-                ViewBag.CategoryList = CategoryList;
-               return View(product);
+                return View(productVM);
             }
             else
             {
             }
-            return  View(product);
+            return View(productVM);
         }
 
         //POST
