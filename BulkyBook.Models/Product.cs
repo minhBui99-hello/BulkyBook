@@ -18,6 +18,7 @@ namespace BulkyBook.Models
         
         [Required]
         [Range(1,10000)]
+        [Display(Name = "List Price")]
         public double ListPrice { get; set; }
         
         [Required]

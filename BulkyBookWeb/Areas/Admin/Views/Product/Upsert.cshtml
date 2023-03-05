@@ -1,7 +1,11 @@
 ﻿@model BulkyBook.Models.ViewModels.ProductVM
 
 <form method="post" asp-action="Upsert" enctype="multipart/form-data">
-    <div class="border p-3 mt-4 row">
+    <input asp-for="Product.Id" hidden>
+    <input asp-for="Product.ImageUrl" hidden> 
+
+    <div class="row">
+        <div class="border p-3 mt-4 col-10">
         <div class="row pb-2">
             <h2 class="text-primary">@(Model.Product.Id != 0 ? "Update" : "Create") Product</h2>
             <hr/> 
@@ -73,21 +77,32 @@
         }
         <a asp-controller="Product" asp-action="Index" class="btn btn-secondary bg-white text-dark" style="width:150px">Back to list</a>
     </div>
+        <div class="col-2 pt-4">
+            <img src="@Model.Product.ImageUrl"
+            width="100%" style="border-radius: 5px; border: 1px solid #bbb9b9"/>
+        </div>
+    </div>
+
+    
 </form>
 
 @section Scripts{
-         <partial name="_ValidationScriptsPartial"></partial>
-         <script>
-            function ValidateInput(){
-                if(document.getElementById("uploadBtn").value == "")
-                {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Oops...',
-                        text: 'Please upload an image!'
-                    })
-                    return false
-                }
-            }
-         </script>
+         @{
+	        <partial name="_ValidationScriptsPartial" />
+	      }
+
+    <script>
+    function ValidateInput(){
+        if(document.getElementById("uploadBtn").value == "")
+        {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Please upload an image!'
+            });
+            return false;
+        }
+        return true;
+    }
+    </script>
 }
