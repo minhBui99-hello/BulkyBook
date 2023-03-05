@@ -21,19 +21,19 @@ namespace BulkyBook.DataAccess.Repository
             var objFromDb = _db.Products.FirstOrDefault(u => u.Id == obj.Id);
             if (objFromDb != null)
             {
-                obj.Title   = objFromDb.Title;
-                obj.ISBN = objFromDb.ISBN;
-                obj.Author = objFromDb.Author;
-                obj.Description = objFromDb.Description;
-                obj.ListPrice= objFromDb.ListPrice;
-                obj.Price = objFromDb.Price;
-                obj.Price50 = objFromDb.Price50;
-                obj.Price100 = objFromDb.Price100;
-                obj.CategoryId = objFromDb.CategoryId;
-                obj.CoverType = objFromDb.CoverType;
-                if(obj.ImageUrl != null)
+                objFromDb.Title = obj.Title;
+                objFromDb.ISBN = obj.ISBN;
+                objFromDb.Price = obj.Price;
+                objFromDb.Price50 = obj.Price50;
+                objFromDb.ListPrice = obj.ListPrice;
+                objFromDb.Price100 = obj.Price100;
+                objFromDb.Description = obj.Description;
+                objFromDb.CategoryId = obj.CategoryId;
+                objFromDb.Author = obj.Author;
+                objFromDb.CoverTypeId = obj.CoverTypeId;
+                if (obj.ImageUrl != null)
                 {
-                    obj.ImageUrl = objFromDb.ImageUrl;
+                    objFromDb.ImageUrl = obj.ImageUrl;  
                 }
 
             }
