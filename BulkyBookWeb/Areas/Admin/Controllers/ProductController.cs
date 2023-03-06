@@ -128,7 +128,7 @@ namespace BulkyBookWeb.Areas.Admin.Controllers
         public IActionResult Delete(int? id)
         {
             var obj = _unitOfWork.Product.GetFirstOrDefault(u => u.Id == id);
-            if (obj != null)
+            if (obj == null)
             {
                 return Json(new { success = false, message = "Error while deleting" });
             }
