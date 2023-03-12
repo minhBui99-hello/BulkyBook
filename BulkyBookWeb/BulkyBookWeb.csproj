@@ -7,11 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="Areas\Admin\Views\Product\Upsert.cshtml" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="Areas\Admin\Views\Product\Upsert.cshtml" />
+    <Compile Remove="Areas\Admin\Views\**" />
+    <Content Remove="Areas\Admin\Views\**" />
+    <EmbeddedResource Remove="Areas\Admin\Views\**" />
+    <None Remove="Areas\Admin\Views\**" />
   </ItemGroup>
 
   <ItemGroup>
