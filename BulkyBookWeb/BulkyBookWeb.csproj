@@ -30,4 +30,8 @@
     <ProjectReference Include="..\BulkyBook.Utility\BulkyBook.Utility.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="Areas\Customer\Views\Cart\Index.cshtml" />
+  </ItemGroup>
+
 </Project>
