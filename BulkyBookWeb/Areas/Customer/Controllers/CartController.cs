@@ -13,7 +13,6 @@ namespace BulkyBookWeb.Areas.Customer.Controllers
         // [AllowAnonymous]
         private readonly IUnitOfWork _unitOfWork;
         public ShoppingCartVM ShoppingCartVM {get; set;}
-        public double OrderTotal{get;set;}
         
         public CartController(IUnitOfWork unitOfWork)
         {
@@ -33,10 +32,43 @@ namespace BulkyBookWeb.Areas.Customer.Controllers
             {
                 cart.Price = GetPriceBaseOnQuantity(cart.Count, cart.Product.Price, 
                             cart.Product.Price50, cart.Product.Price100);
+                ShoppingCartVM.CartToral += cart.Count * cart.Price;
             }
 
             return View(ShoppingCartVM);
         }
+
+        public IActionResult Plus(int cartId)
+        {
+            var cart = _unitOfWork.ShoppingCart.GetFirstOrDefault(u=>u.Id == cartId);
+            _unitOfWork.ShoppingCart.IncrementCount(cart, 1);
+            _unitOfWork.Save();
+            return RedirectToAction(nameof(Index));
+        }
+
+        public IActionResult Minus(int cartId)
+        {
+            var cart = _unitOfWork.ShoppingCart.GetFirstOrDefault(u=>u.Id == cartId);
+            if(cart.Count < 1)
+            {
+                _unitOfWork.ShoppingCart.Remove(cart);
+            }
+            else
+            {
+                _unitOfWork.ShoppingCart.DecrementCount(cart, 1);
+            }
+            _unitOfWork.Save();
+            return RedirectToAction(nameof(Index));
+        }
+
+        public IActionResult Remove(int cartId)
+        {
+            var cart = _unitOfWork.ShoppingCart.GetFirstOrDefault(u=>u.Id == cartId);
+            _unitOfWork.ShoppingCart.Remove(cart);
+            _unitOfWork.Save();
+            return RedirectToAction(nameof(Index));
+        }
+
         private double GetPriceBaseOnQuantity(double quantity, double price, double price50, double price100 )
         {
             if(quantity <= 50)
