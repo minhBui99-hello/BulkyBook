@@ -11,14 +11,16 @@
                     </h5>
                 </div>
 
-            </div>
+            </div>  
         </div>
         <div class="card-body my-4">
             <div class="row">
             </div>
             <div class="row mb-3 pb-3">
                 <div class="col-md-2 offset-md-1">
-                    <a asp-area="Customer" asp-controller="Home" asp-action="Index" class="btn btn-outline-primary text-uppercase mb-5 btn-sm"><small>Continue Shopping</small></a>
+                    <a asp-area="Customer" asp-controller="Home" asp-action="Index" class="btn btn-outline-primary text-uppercase mb-5 btn-sm">
+                        <small>Continue Shopping</small>
+                    </a>
                 </div>
                 <div class="col-md-10 offset-md-1">
 
@@ -34,16 +36,16 @@
                         <div class="col-12  col-lg-5 text-center row">
                             <div class="col-3 text-md-right pt-2 pt-md-4">
                                 <h6 class="fw-semibold">
-                                        @item.Product.Price.ToString("c")
+                                        @item.Price.ToString("c")
                                     <span class="text-muted">&nbsp;x&nbsp;</span>@item.Count
                                 </h6>
                             </div>
                             <div class="col-6 col-sm-4 col-lg-6 pt-2">
                                 <div class="w-75 btn-group" role="group">
-                                    <a asp-action="plus" asp-route-cartId="@item.Id" class="btn btn-outline-primary bg-gradient py-2">
+                                    <a asp-action="plus" asp-route-cartId="@item.Id" class="btn btn-primary bg-gradient py-2">
                                         <i class="bi bi-plus-square"></i>
                                     </a> &nbsp;
-                                        <a asp-action="minus" asp-route-cartId="@item.Id" class="btn btn-outline-primary bg-gradient py-2">
+                                        <a asp-action="minus" asp-route-cartId="@item.Id" class="btn btn-primary bg-gradient py-2">
                                         <i class="bi bi-dash-square"></i>
                                     </a>
                                 </div>
@@ -74,7 +76,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-2 offset-md-5">
+                    <div class="col-md-2 offset-md-5">  
                         <a asp-action="Summary" class="btn btn-primary border-0 bg-gradient w-100 py-2">Summary</a>
                     </div>
                 </div>
