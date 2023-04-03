@@ -26,13 +26,15 @@ namespace BulkyBookWeb.Areas.Customer.Controllers
             ShoppingCartVM = new ShoppingCartVM()
             {
                 ListCart = _unitOfWork.ShoppingCart.GetAll(u => u.ApplicationUserId == claim.Value, 
-                    includeProperties: "Product")
+                includeProperties: "Product"),
+                OrderHeader = new()
+                
             };
             foreach(var cart in ShoppingCartVM.ListCart)
             {
                 cart.Price = GetPriceBaseOnQuantity(cart.Count, cart.Product.Price, 
                             cart.Product.Price50, cart.Product.Price100);
-                ShoppingCartVM.CartToral += cart.Count * cart.Price;
+                ShoppingCartVM.OrderHeader.OrderTotal += cart.Count * cart.Price;
             }
 
             return View(ShoppingCartVM);
@@ -40,23 +42,35 @@ namespace BulkyBookWeb.Areas.Customer.Controllers
 
         public IActionResult Summary()
         {
-            // var claimsIdentity = (ClaimsIdentity)User.Identity;
-            // var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+            var claimsIdentity = (ClaimsIdentity)User.Identity;
+            var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
 
-            // ShoppingCartVM = new ShoppingCartVM()
-            // {
-            //     ListCart = _unitOfWork.ShoppingCart.GetAll(u => u.ApplicationUserId == claim.Value, 
-            //         includeProperties: "Product")
-            // };
-            // foreach(var cart in ShoppingCartVM.ListCart)
-            // {
-            //     cart.Price = GetPriceBaseOnQuantity(cart.Count, cart.Product.Price, 
-            //                 cart.Product.Price50, cart.Product.Price100);
-            //     ShoppingCartVM.CartToral += cart.Count * cart.Price;
-            // }
+            ShoppingCartVM = new ShoppingCartVM()
+            {
+                ListCart = _unitOfWork.ShoppingCart.GetAll(u => u.ApplicationUserId == claim.Value, 
+                    includeProperties: "Product"),  
+                OrderHeader = new()
+            };
+            ShoppingCartVM.OrderHeader.ApplicationUser = _unitOfWork.ApplicationUser.GetFirstOrDefault(
+                u => u.Id == claim.Value);
+            
+            ShoppingCartVM.OrderHeader.PhoneNumber = ShoppingCartVM.OrderHeader.ApplicationUser.PhoneNumber;
+            ShoppingCartVM.OrderHeader.StreetAddress = ShoppingCartVM.OrderHeader.ApplicationUser.StreetAddress;
+            ShoppingCartVM.OrderHeader.City = ShoppingCartVM.OrderHeader.ApplicationUser.City;
+            ShoppingCartVM.OrderHeader.State = ShoppingCartVM.OrderHeader.ApplicationUser.State;
+            ShoppingCartVM.OrderHeader.PostalCode = ShoppingCartVM.OrderHeader.ApplicationUser.PostalCode;
+            ShoppingCartVM.OrderHeader.Name = ShoppingCartVM.OrderHeader.ApplicationUser.Name;
 
-            // return View(ShoppingCartVM);
-            return View();
+
+
+            foreach(var cart in ShoppingCartVM.ListCart)
+            {
+                cart.Price = GetPriceBaseOnQuantity(cart.Count, cart.Product.Price, 
+                            cart.Product.Price50, cart.Product.Price100);
+                ShoppingCartVM.OrderHeader.OrderTotal += cart.Count * cart.Price;
+            }
+
+            return View(ShoppingCartVM);
         }
 
         public IActionResult Plus(int cartId)
