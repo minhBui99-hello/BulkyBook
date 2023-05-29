@@ -24,9 +24,13 @@ namespace BulkyBook.DataAccess.Repository
            dbSet.Add(entity);
         }
         //todo includeProperties = null
-        public IEnumerable<T> GetAll(string? includeProperties = null)
+        public IEnumerable<T> GetAll(Expression<Func<T, bool>>? filter=null , string? includeProperties = null)
         {
             IQueryable<T> query = dbSet;
+            if(filter != null)
+            {
+                query = query.Where(filter);
+            }
             if(includeProperties != null)
             {
                 foreach(var includeProp in includeProperties.Split(new char[] {','}, StringSplitOptions.RemoveEmptyEntries))
@@ -34,21 +38,22 @@ namespace BulkyBook.DataAccess.Repository
                     query = query.Include(includeProp);
                 }
             }
+
             return query.ToList();
         }
 
         public T GetFirstOrDefault(Expression<Func<T, bool>> filter, string? includeProperties = null)
         {
             IQueryable<T> query = dbSet;
+            query = query.Where(filter);
             if(includeProperties != null)
+
             {
                 foreach(var includeProp in includeProperties.Split(new char[] {','}, StringSplitOptions.RemoveEmptyEntries))
                 {
                     query = query.Include(includeProp);
                 }
             }
-
-            query = query.Where(filter);
 
             return query.FirstOrDefault();
         }
